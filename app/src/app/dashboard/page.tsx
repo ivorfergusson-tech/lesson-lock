@@ -126,7 +126,6 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
               </table>
             </div>
           </div>
-        </div>
       </main>
     </div>
   );
