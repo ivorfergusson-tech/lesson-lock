@@ -82,7 +82,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           </div>
         </div>
         <p className="mt-3 text-slate-400 text-base">You've recovered <span className="text-emerald-400 font-medium">${(totalProtected / 100).toFixed(2)}</span> from {charged.length} kept-fee charges.</p>
-        {!(policies?.length && tutor?.stripe_account_id && bookings?.length) && (
+        {!(policies?.length && tutor?.stripe_account_id && ((bookings ?? []).length > 0 || charged.length > 0)) && (
           <div className="mt-6 rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
             <h2 className="font-semibold">Get started — 3 steps to your first protected booking</h2>
             <ul className="mt-4 space-y-3">

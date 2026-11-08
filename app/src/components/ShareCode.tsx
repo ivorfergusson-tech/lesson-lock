@@ -18,10 +18,10 @@ export default function ShareCode({ link }: { link: string }) {
       <span className="text-sm text-slate-300">
         Code: <span className="font-mono text-slate-100">{code}</span>
       </span>
-      <button onClick={copy} className="rounded-lg border border-slate-700 bg-slate-800 px-3 py-1.5 text-xs font-medium text-slate-200 hover:bg-slate-700">
+      <button onClick={copy} className="rounded-lg bg-blue-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-blue-500">
         {copied ? "Copied!" : "Copy link"}
       </button>
-      <button onClick={() => setOpen(true)} className="rounded-lg border border-slate-700 bg-slate-800 px-3 py-1.5 text-xs font-medium text-slate-200 hover:bg-slate-700">
+      <button onClick={() => setOpen(true)} className="rounded-lg bg-blue-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-blue-500">
         Show QR
       </button>
       {open && (
