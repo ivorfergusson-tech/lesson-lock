@@ -31,7 +31,7 @@ export default function ResetPasswordPage() {
             {loading ? "Sending..." : "Send reset link"}
           </button>
         </form>
-        {msg && <p className="mt-4 text-sm text-slate-400">{msg}</p>}
+        {msg && <p className="mt-4 text-sm text-emerald-400">{msg}</p>}
         <p className="mt-4 text-center text-sm text-slate-400">
           <Link href="/login" className="font-medium text-blue-400">Back to log in</Link>
         </p>
