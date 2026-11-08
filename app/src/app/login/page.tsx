@@ -57,9 +57,14 @@ export default function LoginPage() {
             {loading ? "Signing in..." : "Sign in"}
           </button>
         </form>
-        <p className="mt-4 text-center text-sm text-zinc-600 dark:text-zinc-400">
+        <p className="mt-4 text-center text-sm text-slate-400">
+          <Link href="/reset-password" className="font-medium text-blue-400">
+            Forgot password?
+          </Link>
+        </p>
+        <p className="mt-2 text-center text-sm text-slate-400">
           No account?{" "}
-          <Link href="/signup" className="font-medium text-black dark:text-white">
+          <Link href="/signup" className="font-medium text-blue-400">
             Sign up
           </Link>
         </p>
