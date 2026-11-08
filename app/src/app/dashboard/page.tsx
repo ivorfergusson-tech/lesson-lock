@@ -3,10 +3,11 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import Header from "@/components/Header";
 
-export default async function DashboardPage({ searchParams }: { searchParams: Promise<{ demo?: string; connect?: string }> }) {
+export default async function DashboardPage({ searchParams }: { searchParams: Promise<{ demo?: string; connect?: string; checkout?: string }> }) {
   const sp = await searchParams;
   const demo = sp?.demo === "1";
   const connectStatus = sp?.connect;
+  const checkoutStatus = sp?.checkout;
 
   if (demo) {
     const { DEMO_LESSONS, DEMO_TOTAL_PROTECTED } = await import("@/lib/demo");
@@ -51,7 +52,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const { data: tutor } = await supabase.from("tutors").select("stripe_account_id, stripe_onboarded").eq("id", user.id).single();
+  const { data: tutor } = await supabase.from("tutors").select("stripe_account_id, stripe_onboarded, stripe_customer_id, subscription_status, tier").eq("id", user.id).single();
   const { data: policies } = await supabase.from("policies").select("id, name, slug").eq("tutor_id", user.id);
   const { data: bookings } = await supabase.from("protected_bookings").select("id").eq("tutor_id", user.id);
   const { data: lessons } = await supabase.from("lessons").select("*").eq("tutor_id", user.id);
@@ -72,6 +73,16 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
         {connectStatus === "refresh" && (
           <div className="mb-6 rounded-xl border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm text-amber-300">
             Stripe onboarding was interrupted. Click "Connect Stripe" to resume.
+          </div>
+        )}
+        {checkoutStatus === "success" && (
+          <div className="mb-6 rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-300">
+            Subscription activated. Welcome to LessonLock!
+          </div>
+        )}
+        {checkoutStatus === "cancel" && (
+          <div className="mb-6 rounded-xl border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm text-amber-300">
+            Checkout canceled. You can subscribe anytime.
           </div>
         )}
         <div className="flex items-center justify-between gap-6 flex-wrap">
@@ -107,6 +118,35 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
             </div>
           </details>
         )}
+        <div className="mt-6 rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <div>
+              <h2 className="font-semibold">Billing</h2>
+              <p className="mt-1 text-sm text-slate-400">
+                Plan: <span className="text-slate-200 font-medium capitalize">{tutor?.tier || "starter"}</span> · Status: <span className="text-slate-200 font-medium">{tutor?.subscription_status || "inactive"}</span>
+              </p>
+            </div>
+            <div className="flex gap-3">
+              {tutor?.subscription_status !== "active" && (
+                <>
+                  <form action="/api/stripe/checkout" method="POST" className="inline">
+                    <input type="hidden" name="tier" value="starter" />
+                    <button type="submit" className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-500">Subscribe Starter ($12/mo)</button>
+                  </form>
+                  <form action="/api/stripe/checkout" method="POST" className="inline">
+                    <input type="hidden" name="tier" value="pro" />
+                    <button type="submit" className="rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium text-slate-200 hover:bg-slate-800">Upgrade to Pro ($29/mo)</button>
+                  </form>
+                </>
+              )}
+              {tutor?.subscription_status === "active" && tutor?.stripe_customer_id && (
+                <form action="/api/stripe/portal" method="POST" className="inline">
+                  <button type="submit" className="rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium text-slate-200 hover:bg-slate-800">Manage subscription</button>
+                </form>
+              )}
+            </div>
+          </div>
+        </div>
         <div className="mt-10 grid gap-4 sm:grid-cols-3">
           <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5"><p className="text-sm text-slate-400">Protected revenue</p><p className="mt-2 text-2xl font-semibold text-emerald-400">${(totalProtected / 100).toFixed(2)}</p></div>
           <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5"><p className="text-sm text-slate-400">Kept-fee charges</p><p className="mt-2 text-2xl font-semibold">{charged.length}</p></div>

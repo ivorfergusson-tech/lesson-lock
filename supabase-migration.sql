@@ -7,6 +7,8 @@ create table if not exists public.tutors (
   display_name text,
   stripe_account_id text,
   stripe_onboarded boolean default false,
+  stripe_customer_id text,
+  subscription_status text default 'inactive' check (subscription_status in ('inactive','active','past_due','canceled')),
   tier text default 'starter' check (tier in ('starter','pro')),
   created_at timestamptz default now()
 );
@@ -70,3 +72,7 @@ drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute function public.handle_new_user();
+
+-- add subscription columns if missing
+alter table public.tutors add column if not exists stripe_customer_id text;
+alter table public.tutors add column if not exists subscription_status text default 'inactive';
