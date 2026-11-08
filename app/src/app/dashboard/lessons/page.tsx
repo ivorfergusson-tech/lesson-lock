@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
+import Header from "@/components/Header";
 
 export default function LessonsPage() {
   const supabase = createClient();
@@ -64,8 +65,9 @@ export default function LessonsPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-zinc-50 px-6 py-10 dark:bg-black">
-      <div className="mx-auto w-full max-w-5xl">
+    <div className="min-h-screen bg-slate-950 text-slate-100">
+      <Header />
+      <div className="mx-auto w-full max-w-5xl px-6 py-10">
         <div className="mb-6 flex items-center justify-between">
           <h1 className="text-3xl font-semibold tracking-tight">Lessons</h1>
           <Link href="/dashboard" className="text-sm text-zinc-500 hover:text-zinc-900">← Dashboard</Link>

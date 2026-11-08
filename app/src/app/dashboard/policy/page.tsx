@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
+import Header from "@/components/Header";
 
 const TEMPLATES = [
   { key: "24h-50", name: "24h / 50% kept", hours: 24, pct: 50 },
@@ -45,8 +46,9 @@ export default function PolicyPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-zinc-50 px-6 py-10 dark:bg-black">
-      <div className="mx-auto w-full max-w-3xl">
+    <div className="min-h-screen bg-slate-950 text-slate-100">
+      <Header />
+      <div className="mx-auto w-full max-w-3xl px-6 py-10">
         <div className="mb-6 flex items-center justify-between">
           <h1 className="text-3xl font-semibold tracking-tight">Policy builder</h1>
           <Link href="/dashboard" className="text-sm text-zinc-500 hover:text-zinc-900">← Dashboard</Link>
