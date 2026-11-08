@@ -10,7 +10,7 @@
     "pages:build": "npx @cloudflare/next-on-pages"
   },
   "dependencies": {
-    "@next/swc-win32-x64-msvc": "^16.4.5",
+
     "@stripe/react-stripe-js": "^7.0.1",
     "@stripe/stripe-js": "^10.2.1",
     "@supabase/ssr": "^0.12.7",
