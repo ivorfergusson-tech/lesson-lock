@@ -17,6 +17,7 @@ export const metadata: Metadata = {
   title: "LessonLock — No-show protection for online music teachers",
   description:
     "Students put a card on file once. You get paid automatically when they flake — no awkward texts, no chasing Venmo.",
+  icons: { icon: "/logo.svg" },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -11,6 +11,7 @@ export default function LessonsPage() {
   const [policies, setPolicies] = useState<any[]>([]);
   const [form, setForm] = useState({ student_name: "", student_email: "", scheduled_at: "", rate: "45", policy_id: "" });
   const [msg, setMsg] = useState("");
+  const [toast, setToast] = useState<{ text: string; ok: boolean } | null>(null);
 
   async function load() {
     const { data: l } = await supabase.from("lessons").select("*").order("scheduled_at", { ascending: false });
@@ -118,7 +119,7 @@ export default function LessonsPage() {
                     )}
                     {l.status === "no_show" || l.status === "late_cancel" ? (
                       <>
-                        <button onClick={async () => { const r = await fetch("/api/charge", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ lessonId: l.id }) }); const d = await r.json(); if (d.ok) { alert(`Charged $${(d.amount/100).toFixed(2)}`); load(); } else alert(d.error); }} className="text-xs text-indigo-600 hover:underline">Charge kept fee</button>
+                        <button onClick={async () => { const r = await fetch("/api/charge", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ lessonId: l.id }) }); const d = await r.json(); if (d.ok) { setToast({ text: `Charged $${(d.amount/100).toFixed(2)}`, ok: true }); load(); } else setToast({ text: d.error || "Charge failed", ok: false }); }} className="text-xs text-blue-400 hover:underline">Charge kept fee</button>
                         <button onClick={() => mark(l.id, "completed")} className="text-xs text-emerald-600 hover:underline">Forgive</button>
                       </>
                     ) : null}
@@ -132,6 +133,12 @@ export default function LessonsPage() {
           </table>
         </div>
       </div>
+      {toast && (
+        <div className={`fixed bottom-6 right-6 z-50 rounded-xl px-4 py-3 text-sm font-medium shadow-lg ${toast.ok ? "bg-emerald-500 text-zinc-950" : "bg-red-500 text-white"}`}>
+          {toast.text}
+          <button onClick={() => setToast(null)} className="ml-3 opacity-70 hover:opacity-100">✕</button>
+        </div>
+      )}
     </div>
   );
 }
