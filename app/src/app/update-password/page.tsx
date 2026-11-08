@@ -23,7 +23,7 @@ export default function UpdatePasswordPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-950 px-6">
       <div className="w-full max-w-sm rounded-2xl border border-slate-800 bg-slate-900 p-8">
-        <h1 className="text-2xl font-semibold tracking-tight">Set new password</h1>
+        <h1 className="text-3xl font-semibold tracking-tight">Set new password</h1>
         <p className="mt-1 text-sm text-slate-400">Enter your new password below.</p>
         <form onSubmit={submit} className="mt-6 flex flex-col gap-4">
           <input type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="New password" className="h-11 rounded-xl border border-slate-700 bg-slate-800 px-4 text-sm text-slate-100 outline-none focus:border-blue-500" />
