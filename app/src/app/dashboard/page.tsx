@@ -14,7 +14,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     const noShows = DEMO_LESSONS.filter((l: any) => l.status === "no_show" || l.status === "late_cancel").length;
     return (
       <div className="min-h-screen bg-slate-950 text-slate-100 antialiased">
-        <Header />
+        <Header shareLink="https://lesson-lock.pages.dev/book/demo-policy-abc123" />
         <main className="max-w-6xl mx-auto px-6 py-12">
           <div className="flex items-center justify-between gap-6 flex-wrap">
             <h1 className="text-3xl font-semibold tracking-tight">Dashboard</h1>
@@ -62,7 +62,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 antialiased">
-      <Header initials={initials} />
+      <Header initials={initials} shareLink={(policies ?? [])[0]?.slug ? `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3001"}/book/${(policies ?? [])[0].slug}` : undefined} />
       <main className="max-w-6xl mx-auto px-6 py-12">
         {connectStatus === "return" && (
           <div className="mb-6 rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-300">
@@ -112,9 +112,8 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5"><p className="text-sm text-slate-400">Kept-fee charges</p><p className="mt-2 text-2xl font-semibold">{charged.length}</p></div>
           <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5"><p className="text-sm text-slate-400">Pending</p><p className="mt-2 text-2xl font-semibold">{noShows}</p></div>
         </div>
-        <div className="mt-12 grid gap-6 lg:grid-cols-2">
-          <div>
-            <h2 className="text-sm font-medium text-slate-400 uppercase tracking-wide">Recent lessons</h2>
+        <div className="mt-12">
+          <h2 className="text-sm font-medium text-slate-400 uppercase tracking-wide">Recent lessons</h2>
             <div className="mt-3 rounded-xl border border-slate-800 bg-slate-900/60 overflow-hidden">
               <table className="w-full text-sm">
                 <thead className="border-b border-slate-800 text-slate-400"><tr><th className="px-4 py-3 text-left font-medium">Student</th><th className="px-4 py-3 text-left font-medium">Scheduled</th><th className="px-4 py-3 text-left font-medium">Status</th><th className="px-4 py-3 text-left font-medium">Charged</th></tr></thead>
@@ -126,33 +125,6 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
                 </tbody>
               </table>
             </div>
-          </div>
-          <div>
-            <h2 className="text-sm font-medium text-slate-400 uppercase tracking-wide">Share your booking link</h2>
-            {(policies ?? []).length > 0 ? (
-              <div className="mt-3 rounded-xl border border-slate-800 bg-slate-900/60 p-5 space-y-4">
-                {(policies ?? []).slice(0, 1).map((p: any) => {
-                  const link = `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3001"}/book/${p.slug}`;
-                  const qr = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(link)}`;
-                  return (
-                    <div key={p.id} className="space-y-3">
-                      <p className="text-sm text-slate-300">{p.name}</p>
-                      <div className="flex items-center gap-2">
-                        <code className="flex-1 truncate rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-xs text-slate-200">{link}</code>
-                      </div>
-                      <div className="flex items-center gap-4">
-                        <img src={qr} alt="QR code" className="h-32 w-32 rounded-lg border border-slate-700 bg-white p-1" />
-                        <p className="text-xs text-slate-500">Scan to open the booking page and save a card on file.</p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className="mt-3 rounded-xl border border-slate-800 bg-slate-900/60 p-5 text-sm text-slate-400">
-                Create a policy first to get a shareable booking link.
-              </div>
-            )}
           </div>
         </div>
       </main>
