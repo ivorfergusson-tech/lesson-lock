@@ -32,10 +32,10 @@ export default function EmailCapture() {
       />
       <button
         type="submit"
-        disabled={status === "loading"}
+        disabled={status === "loading" || status === "done"}
         className="h-12 rounded-full bg-blue-600 px-6 text-sm font-medium text-white transition hover:bg-blue-500 disabled:opacity-60"
       >
-        {status === "loading" ? "Saving..." : status === "done" ? "You're on the list!" : "Get early access"}
+        {status === "loading" ? "Saving..." : "Get early access"}
       </button>
       {status === "done" && (
         <p className="text-sm text-emerald-600 sm:col-span-2">Thanks — we'll be in touch.</p>
