@@ -46,5 +46,6 @@ export async function POST(req: NextRequest) {
     metadata: { tutor_id: user.id, tier },
   });
 
+  if (!session.url) return NextResponse.json({ error: "No redirect URL returned from Stripe" }, { status: 500 });
   return NextResponse.redirect(session.url, 303);
 }

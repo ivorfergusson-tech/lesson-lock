@@ -17,5 +17,6 @@ export async function POST() {
     return_url: `${siteUrl}/dashboard`,
   });
 
+  if (!session.url) return NextResponse.json({ error: "No redirect URL returned from Stripe" }, { status: 500 });
   return NextResponse.redirect(session.url, 303);
 }
