@@ -2,9 +2,9 @@ import EmailCapture from "@/components/EmailCapture";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col bg-zinc-50 font-sans text-zinc-900 dark:bg-black dark:text-zinc-50">
+    <div className="flex min-h-screen flex-col bg-slate-950 font-sans text-slate-100">
       <header className="mx-auto flex w-full max-w-5xl items-center justify-between px-6 py-6">
-        <span className="text-lg font-semibold tracking-tight">LessonLock</span>
+        <span className="flex items-center gap-2.5 text-lg font-semibold tracking-tight"><span className="inline-block w-7 h-7 rounded-md bg-blue-600" />LessonLock</span>
         <div className="flex items-center gap-4">
           <a
             href="/login"
@@ -14,7 +14,7 @@ export default function Home() {
           </a>
           <a
             href="/signup"
-            className="rounded-full bg-black px-4 py-2 text-sm font-medium text-white transition hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200"
+            className="rounded-full bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-500"
           >
             Sign up
           </a>
