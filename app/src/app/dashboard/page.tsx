@@ -52,7 +52,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   if (!user) redirect("/login");
 
   const { data: tutor } = await supabase.from("tutors").select("stripe_account_id, stripe_onboarded").eq("id", user.id).single();
-  const { data: policies } = await supabase.from("policies").select("id").eq("tutor_id", user.id);
+  const { data: policies } = await supabase.from("policies").select("id, name, slug").eq("tutor_id", user.id);
   const { data: bookings } = await supabase.from("protected_bookings").select("id").eq("tutor_id", user.id);
   const { data: lessons } = await supabase.from("lessons").select("*").eq("tutor_id", user.id);
   const charged = (lessons ?? []).filter((l: any) => l.status === "charged");
@@ -112,18 +112,47 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5"><p className="text-sm text-slate-400">Kept-fee charges</p><p className="mt-2 text-2xl font-semibold">{charged.length}</p></div>
           <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5"><p className="text-sm text-slate-400">Pending</p><p className="mt-2 text-2xl font-semibold">{noShows}</p></div>
         </div>
-        <div className="mt-12">
-          <h2 className="text-sm font-medium text-slate-400 uppercase tracking-wide">Recent kept-fee charges</h2>
-          <div className="mt-3 rounded-xl border border-slate-800 bg-slate-900/60 overflow-hidden">
-            <table className="w-full text-sm">
-              <thead className="border-b border-slate-800 text-slate-400"><tr><th className="px-4 py-3 text-left font-medium">Student</th><th className="px-4 py-3 text-left font-medium">Scheduled</th><th className="px-4 py-3 text-left font-medium">Charged</th><th className="px-4 py-3 text-left font-medium">Charge ID</th></tr></thead>
-              <tbody className="divide-y divide-slate-800">
-                {charged.length === 0 && <tr><td colSpan={4} className="px-4 py-6 text-center text-slate-500">No charges yet.</td></tr>}
-                {charged.map((l: any) => (
-                  <tr key={l.id}><td className="px-4 py-3">{l.student_name}</td><td className="px-4 py-3 text-slate-400">{new Date(l.scheduled_at).toLocaleString()}</td><td className="px-4 py-3">${((l.charged_cents ?? 0) / 100).toFixed(2)}</td><td className="px-4 py-3 font-mono text-xs text-slate-500">{l.charge_id}</td></tr>
-                ))}
-              </tbody>
-            </table>
+        <div className="mt-12 grid gap-6 lg:grid-cols-2">
+          <div>
+            <h2 className="text-sm font-medium text-slate-400 uppercase tracking-wide">Recent lessons</h2>
+            <div className="mt-3 rounded-xl border border-slate-800 bg-slate-900/60 overflow-hidden">
+              <table className="w-full text-sm">
+                <thead className="border-b border-slate-800 text-slate-400"><tr><th className="px-4 py-3 text-left font-medium">Student</th><th className="px-4 py-3 text-left font-medium">Scheduled</th><th className="px-4 py-3 text-left font-medium">Status</th><th className="px-4 py-3 text-left font-medium">Charged</th></tr></thead>
+                <tbody className="divide-y divide-slate-800">
+                  {(lessons ?? []).length === 0 && <tr><td colSpan={4} className="px-4 py-6 text-center text-slate-500">No lessons yet.</td></tr>}
+                  {(lessons ?? []).slice(0, 6).map((l: any) => (
+                    <tr key={l.id}><td className="px-4 py-3">{l.student_name}</td><td className="px-4 py-3 text-slate-400">{new Date(l.scheduled_at).toLocaleString()}</td><td className="px-4 py-3 text-slate-400">{l.status}</td><td className="px-4 py-3">${((l.charged_cents ?? 0) / 100).toFixed(2)}</td></tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <h2 className="text-sm font-medium text-slate-400 uppercase tracking-wide">Share your booking link</h2>
+            {(policies ?? []).length > 0 ? (
+              <div className="mt-3 rounded-xl border border-slate-800 bg-slate-900/60 p-5 space-y-4">
+                {(policies ?? []).slice(0, 1).map((p: any) => {
+                  const link = `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3001"}/book/${p.slug}`;
+                  const qr = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(link)}`;
+                  return (
+                    <div key={p.id} className="space-y-3">
+                      <p className="text-sm text-slate-300">{p.name}</p>
+                      <div className="flex items-center gap-2">
+                        <code className="flex-1 truncate rounded-lg border border-slate-700 bg-slate-800 px-3 py-2 text-xs text-slate-200">{link}</code>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <img src={qr} alt="QR code" className="h-32 w-32 rounded-lg border border-slate-700 bg-white p-1" />
+                        <p className="text-xs text-slate-500">Scan to open the booking page and save a card on file.</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="mt-3 rounded-xl border border-slate-800 bg-slate-900/60 p-5 text-sm text-slate-400">
+                Create a policy first to get a shareable booking link.
+              </div>
+            )}
           </div>
         </div>
       </main>
