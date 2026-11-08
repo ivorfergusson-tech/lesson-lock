@@ -77,7 +77,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
             <ul className="mt-4 space-y-3">
               <li className="flex items-center gap-3"><span className={(policies ?? []).length > 0 ? "text-emerald-400" : "text-slate-500"}>{(policies ?? []).length > 0 ? "✓" : "○"}</span><span className={(policies ?? []).length > 0 ? "line-through text-slate-500" : ""}>1. Create a policy</span>{!((policies ?? []).length > 0) && <Link href="/dashboard/policy" className="ml-auto text-sm text-blue-400 hover:underline">Go →</Link>}</li>
               <li className="flex items-center gap-3"><span className={tutor?.stripe_account_id ? "text-emerald-400" : "text-slate-500"}>{tutor?.stripe_account_id ? "✓" : "○"}</span><span className={tutor?.stripe_account_id ? "line-through text-slate-500" : ""}>2. Connect Stripe</span>{!tutor?.stripe_account_id && <a href="/api/stripe/connect" className="ml-auto text-sm text-blue-400 hover:underline">Connect →</a>}</li>
-              <li className="flex items-center gap-3"><span className={(bookings ?? []).length > 0 ? "text-emerald-400" : "text-slate-500"}>{(bookings ?? []).length > 0 ? "✓" : "○"}</span><span className={(bookings ?? []).length > 0 ? "line-through text-slate-500" : ""}>3. Get a student to save a card on file</span></li>
+              <li className="flex items-center gap-3"><span className={((bookings ?? []).length > 0 || charged.length > 0) ? "text-emerald-400" : "text-slate-500"}>{((bookings ?? []).length > 0 || charged.length > 0) ? "✓" : "○"}</span><span className={((bookings ?? []).length > 0 || charged.length > 0) ? "line-through text-slate-500" : ""}>3. Get a student to save a card on file</span></li>
             </ul>
           </div>
         )}
