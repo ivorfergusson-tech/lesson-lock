@@ -3,9 +3,10 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import Header from "@/components/Header";
 
-export default async function DashboardPage({ searchParams }: { searchParams: Promise<{ demo?: string }> }) {
+export default async function DashboardPage({ searchParams }: { searchParams: Promise<{ demo?: string; connect?: string }> }) {
   const sp = await searchParams;
   const demo = sp?.demo === "1";
+  const connectStatus = sp?.connect;
 
   if (demo) {
     const { DEMO_LESSONS, DEMO_TOTAL_PROTECTED } = await import("@/lib/demo");
@@ -63,6 +64,16 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     <div className="min-h-screen bg-slate-950 text-slate-100 antialiased">
       <Header initials={initials} />
       <main className="max-w-6xl mx-auto px-6 py-12">
+        {connectStatus === "return" && (
+          <div className="mb-6 rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-300">
+            Stripe connected successfully. You can now save cards and charge kept fees.
+          </div>
+        )}
+        {connectStatus === "refresh" && (
+          <div className="mb-6 rounded-xl border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm text-amber-300">
+            Stripe onboarding was interrupted. Click "Connect Stripe" to resume.
+          </div>
+        )}
         <div className="flex items-center justify-between gap-6 flex-wrap">
           <h1 className="text-3xl font-semibold tracking-tight">Dashboard</h1>
           <div className="flex gap-3">
@@ -80,6 +91,21 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
               <li className="flex items-center gap-3"><span className={((bookings ?? []).length > 0 || charged.length > 0) ? "text-emerald-400" : "text-slate-500"}>{((bookings ?? []).length > 0 || charged.length > 0) ? "✓" : "○"}</span><span className={((bookings ?? []).length > 0 || charged.length > 0) ? "line-through text-slate-500" : ""}>3. Get a student to save a card on file</span></li>
             </ul>
           </div>
+        )}
+        {!tutor?.stripe_account_id && (
+          <details className="mt-6 rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
+            <summary className="cursor-pointer font-semibold text-blue-400">How to connect Stripe (instructions)</summary>
+            <div className="mt-4 space-y-2 text-sm text-slate-300">
+              <p>1. Click "Connect Stripe" above. You'll be taken to Stripe's secure onboarding.</p>
+              <p>2. Select <strong>Individual / Sole proprietor</strong> (not Company).</p>
+              <p>3. Use your personal email and your own name as the business name.</p>
+              <p>4. For "Business website", paste your LessonLock booking link or a social profile (Instagram/YouTube). If it's optional, you can skip it.</p>
+              <p>5. Enter your personal bank account for payouts.</p>
+              <p>6. Verify your phone via SMS and email.</p>
+              <p>7. After finishing, you'll be redirected back to this dashboard automatically.</p>
+              <p className="text-slate-500">Test mode: use test data — no real money moves. Switch to live keys later.</p>
+            </div>
+          </details>
         )}
         <div className="mt-10 grid gap-4 sm:grid-cols-3">
           <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5"><p className="text-sm text-slate-400">Protected revenue</p><p className="mt-2 text-2xl font-semibold text-emerald-400">${(totalProtected / 100).toFixed(2)}</p></div>
