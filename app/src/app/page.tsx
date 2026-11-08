@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-slate-950 font-sans text-slate-100">
       <header className="mx-auto flex w-full max-w-5xl items-center justify-between px-6 py-6">
-        <span className="flex items-center gap-2.5 text-lg font-semibold tracking-tight"><span className="inline-block w-7 h-7 rounded-md bg-blue-600" />LessonLock</span>
+        <span className="flex items-center gap-2.5 text-lg font-semibold tracking-tight"><img src="/logo.svg" alt="LessonLock" className="w-7 h-7" />LessonLock</span>
         <div className="flex items-center gap-4">
           <a
             href="/login"
