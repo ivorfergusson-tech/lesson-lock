@@ -21,19 +21,19 @@ export default function EmailCapture() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex w-full max-w-md flex-col gap-3 sm:flex-row">
+    <form onSubmit={handleSubmit} className="flex w-full max-w-md flex-col items-center gap-3 sm:flex-row sm:justify-center">
       <input
         type="email"
         required
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="you@pianostudio.com"
-        className="h-12 flex-1 rounded-full border border-black/10 bg-white px-5 text-sm outline-none focus:border-black/30 dark:border-white/15 dark:bg-zinc-900 dark:text-white"
+        className="h-12 flex-1 rounded-full border border-slate-700 bg-slate-900 px-5 text-sm text-slate-100 placeholder:text-slate-500 outline-none focus:border-blue-500"
       />
       <button
         type="submit"
         disabled={status === "loading"}
-        className="h-12 rounded-full bg-black px-6 text-sm font-medium text-white transition hover:bg-zinc-800 disabled:opacity-60 dark:bg-white dark:text-black dark:hover:bg-zinc-200"
+        className="h-12 rounded-full bg-blue-600 px-6 text-sm font-medium text-white transition hover:bg-blue-500 disabled:opacity-60"
       >
         {status === "loading" ? "Saving..." : status === "done" ? "You're on the list!" : "Get early access"}
       </button>

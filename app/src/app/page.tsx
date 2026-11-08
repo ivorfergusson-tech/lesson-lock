@@ -37,7 +37,7 @@ export default function Home() {
           Set up in 2 minutes · One kept piano lesson ($45) pays for 4 months of LessonLock.
         </p>
 
-        <div id="early-access" className="mt-10 w-full">
+        <div id="early-access" className="mt-10 flex w-full justify-center">
           <EmailCapture />
         </div>
 
