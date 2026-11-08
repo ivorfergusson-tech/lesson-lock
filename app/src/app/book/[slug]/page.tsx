@@ -12,6 +12,7 @@ function CheckoutForm({ meta }: { meta: any }) {
   const elements = useElements();
   const [msg, setMsg] = useState("");
   const [loading, setLoading] = useState(false);
+  const [saved, setSaved] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   async function submit(e: React.FormEvent) {
@@ -26,9 +27,19 @@ function CheckoutForm({ meta }: { meta: any }) {
         customerId: meta?.customerId ?? null, paymentMethodId: setupIntent.payment_method, accountId: meta.accountId,
       }) });
       const d = await res.json();
-      if (d.ok) setMsg("Card saved! You're all set."); else setMsg(d.error);
+      console.log("save result", d);
+      if (d.ok) { setSaved(true); setMsg("Card saved! You're all set."); window.alert("Card saved successfully! Your card is now on file."); } else setMsg(d.error);
     }
     setLoading(false);
+  }
+  if (saved) {
+    return (
+      <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-6 text-center dark:border-emerald-800 dark:bg-emerald-950/40">
+        <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-100 text-2xl text-emerald-600 dark:bg-emerald-900/40 dark:text-emerald-400">✓</div>
+        <h2 className="text-lg font-semibold tracking-tight text-emerald-900 dark:text-emerald-100">Card saved successfully</h2>
+        <p className="mt-1 text-sm text-emerald-700 dark:text-emerald-300">Your card is on file. You won't be charged unless you late-cancel or no-show.</p>
+      </div>
+    );
   }
   return (
     <form onSubmit={submit} className="mt-6 space-y-4">
