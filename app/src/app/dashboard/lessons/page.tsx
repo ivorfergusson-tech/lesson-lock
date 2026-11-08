@@ -12,6 +12,7 @@ export default function LessonsPage() {
   const [form, setForm] = useState({ student_name: "", student_email: "", scheduled_at: "", rate: "45", policy_id: "" });
   const [msg, setMsg] = useState("");
   const [toast, setToast] = useState<{ text: string; ok: boolean } | null>(null);
+  const [chargingId, setChargingId] = useState<string | null>(null);
 
   async function load() {
     const { data: l } = await supabase.from("lessons").select("*").order("scheduled_at", { ascending: false });
@@ -119,7 +120,9 @@ export default function LessonsPage() {
                     )}
                     {l.status === "no_show" || l.status === "late_cancel" ? (
                       <>
-                        <button onClick={async () => { const r = await fetch("/api/charge", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ lessonId: l.id }) }); const d = await r.json(); if (d.ok) { setToast({ text: `Charged $${(d.amount/100).toFixed(2)}`, ok: true }); load(); } else setToast({ text: d.error || "Charge failed", ok: false }); }} className="text-xs text-blue-400 hover:underline">Charge kept fee</button>
+                        <button disabled={chargingId === l.id} onClick={async () => { setChargingId(l.id); const r = await fetch("/api/charge", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ lessonId: l.id }) }); const d = await r.json(); setChargingId(null); if (d.ok) { setToast({ text: `Charged $${(d.amount/100).toFixed(2)}`, ok: true }); load(); } else setToast({ text: d.error || "Charge failed", ok: false }); }} className="text-xs text-blue-400 hover:underline disabled:opacity-50">
+                          {chargingId === l.id ? "Charging..." : "Charge kept fee"}
+                        </button>
                         <button onClick={() => mark(l.id, "completed")} className="text-xs text-emerald-600 hover:underline">Forgive</button>
                       </>
                     ) : null}
