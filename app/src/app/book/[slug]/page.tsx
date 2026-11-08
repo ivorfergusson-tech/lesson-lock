@@ -27,8 +27,7 @@ function CheckoutForm({ meta }: { meta: any }) {
         customerId: meta?.customerId ?? null, paymentMethodId: setupIntent.payment_method, accountId: meta.accountId,
       }) });
       const d = await res.json();
-      console.log("save result", d);
-      if (d.ok) { setSaved(true); setMsg("Card saved! You're all set."); window.alert("Card saved successfully! Your card is now on file."); } else setMsg(d.error);
+      if (d.ok) { setSaved(true); setMsg("Card saved! You're all set."); } else setMsg(d.error);
     }
     setLoading(false);
   }

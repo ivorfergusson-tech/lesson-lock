@@ -2,7 +2,63 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 
-export default async function DashboardPage() {
+export default async function DashboardPage({ searchParams }: { searchParams: Promise<{ demo?: string }> }) {
+  const sp = await searchParams;
+  const demo = sp?.demo === "1";
+  if (demo) {
+    // Render with seeded mock data; no auth/DB.
+    const { DEMO_TUTOR, DEMO_LESSONS, DEMO_TOTAL_PROTECTED } = await import("@/lib/demo");
+    const charged = DEMO_LESSONS.filter((l: any) => l.status === "charged");
+    const noShows = DEMO_LESSONS.filter((l: any) => l.status === "no_show" || l.status === "late_cancel").length;
+    // reuse same JSX by falling through? We'll just render a simplified demo dashboard below.
+    return (
+      <div className="flex min-h-screen flex-col bg-zinc-50 px-6 py-10 dark:bg-black">
+        <div className="mx-auto w-full max-w-5xl">
+          <h1 className="text-3xl font-semibold tracking-tight">Dashboard</h1>
+          <p className="mt-2 text-zinc-600 dark:text-zinc-400">Welcome, {DEMO_TUTOR.email} (demo).</p>
+          <div className="mt-8 grid gap-4 sm:grid-cols-3">
+            <div className="rounded-2xl border border-black/5 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-zinc-900">
+              <p className="text-sm text-zinc-500">Protected revenue recovered</p>
+              <p className="mt-2 text-3xl font-semibold">${(DEMO_TOTAL_PROTECTED / 100).toFixed(2)}</p>
+            </div>
+            <div className="rounded-2xl border border-black/5 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-zinc-900">
+              <p className="text-sm text-zinc-500">Kept-fee charges</p>
+              <p className="mt-2 text-3xl font-semibold">{charged.length}</p>
+            </div>
+            <div className="rounded-2xl border border-black/5 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-zinc-900">
+              <p className="text-sm text-zinc-500">Pending (no-show / late cancel)</p>
+              <p className="mt-2 text-3xl font-semibold">{noShows}</p>
+            </div>
+          </div>
+          <div className="mt-8">
+            <h2 className="font-semibold">Recent kept-fee charges (evidence log)</h2>
+            <div className="mt-3 overflow-x-auto rounded-2xl border border-black/5 bg-white shadow-sm dark:border-white/10 dark:bg-zinc-900">
+              <table className="w-full text-sm">
+                <thead className="border-b border-black/5 dark:border-white/10">
+                  <tr>
+                    <th className="px-4 py-3 text-left font-medium">Student</th>
+                    <th className="px-4 py-3 text-left font-medium">Scheduled</th>
+                    <th className="px-4 py-3 text-left font-medium">Charged</th>
+                    <th className="px-4 py-3 text-left font-medium">Charge ID</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {charged.map((l: any) => (
+                    <tr key={l.id} className="border-b border-black/5 dark:border-white/10">
+                      <td className="px-4 py-3">{l.student_name}</td>
+                      <td className="px-4 py-3">{new Date(l.scheduled_at).toLocaleString()}</td>
+                      <td className="px-4 py-3">${((l.charged_cents ?? 0) / 100).toFixed(2)}</td>
+                      <td className="px-4 py-3 font-mono text-xs text-zinc-500">{l.charge_id}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
