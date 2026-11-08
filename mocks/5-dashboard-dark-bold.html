@@ -1,0 +1,45 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Mock — Dashboard (dark + bold)</title>
+<script src="https://cdn.tailwindcss.com"></script></head>
+<body class="bg-gradient-to-br from-zinc-950 via-indigo-950 to-violet-950 text-white font-sans min-h-screen">
+<header class="sticky top-0 z-50 backdrop-blur bg-zinc-950/70 border-b border-white/10">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a class="flex items-center gap-2 font-bold tracking-tight text-xl"><span class="inline-block w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-500"></span>LessonLock</a>
+    <button class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center font-semibold text-sm">MC</button>
+  </div>
+</header>
+<main class="max-w-6xl mx-auto px-6 py-10">
+  <div class="flex items-end justify-between flex-wrap gap-4">
+    <div>
+      <h1 class="text-4xl font-bold tracking-tight">Dashboard</h1>
+      <p class="mt-2 text-indigo-200 text-lg">You've recovered <span class="text-white font-semibold">$112.50</span> from 3 kept-fee charges.</p>
+    </div>
+    <div class="flex gap-3">
+      <a class="rounded-full bg-white text-indigo-900 px-6 py-3 font-semibold shadow-xl">Policy builder →</a>
+      <a class="rounded-full bg-white/10 border border-white/20 px-6 py-3 font-semibold">Lessons →</a>
+    </div>
+  </div>
+  <div class="mt-10 grid gap-6 sm:grid-cols-3">
+    <a class="rounded-3xl bg-white/10 backdrop-blur border border-white/20 p-6 block hover:bg-white/15 transition">
+      <p class="text-sm text-indigo-200">Protected revenue</p><p class="mt-2 text-4xl font-bold">$112.50</p><p class="mt-3 text-xs text-indigo-300">View evidence log →</p>
+    </a>
+    <a class="rounded-3xl bg-white/10 backdrop-blur border border-white/20 p-6 block hover:bg-white/15 transition">
+      <p class="text-sm text-indigo-200">Kept-fee charges</p><p class="mt-2 text-4xl font-bold">3</p><p class="mt-3 text-xs text-indigo-300">View charges →</p>
+    </a>
+    <a class="rounded-3xl bg-white/10 backdrop-blur border border-white/20 p-6 block hover:bg-white/15 transition">
+      <p class="text-sm text-indigo-200">Pending</p><p class="mt-2 text-4xl font-bold">0</p><p class="mt-3 text-xs text-indigo-300">View pending →</p>
+    </a>
+  </div>
+  <div class="mt-10">
+    <h2 class="font-semibold text-lg">Recent kept-fee charges</h2>
+    <div class="mt-3 overflow-x-auto rounded-2xl border border-white/10 bg-white/5">
+      <table class="w-full text-sm">
+        <thead class="border-b border-white/10 text-indigo-200"><tr><th class="px-4 py-3 text-left font-medium">Student</th><th class="px-4 py-3 text-left font-medium">Scheduled</th><th class="px-4 py-3 text-left font-medium">Charged</th><th class="px-4 py-3 text-left font-medium">Charge ID</th></tr></thead>
+        <tbody>
+          <tr class="border-b border-white/5"><td class="px-4 py-3">Noah T.</td><td class="px-4 py-3">Nov 5, 4:00 PM</td><td class="px-4 py-3">$45.00</td><td class="px-4 py-3 font-mono text-xs text-indigo-300">ch_demo_001</td></tr>
+          <tr class="border-b border-white/5"><td class="px-4 py-3">Ava M.</td><td class="px-4 py-3">Nov 6, 5:00 PM</td><td class="px-4 py-3">$45.00</td><td class="px-4 py-3 font-mono text-xs text-indigo-300">ch_demo_002</td></tr>
+          <tr><td class="px-4 py-3">Ethan B.</td><td class="px-4 py-3">Nov 7, 6:00 PM</td><td class="px-4 py-3">$22.50</td><td class="px-4 py-3 font-mono text-xs text-indigo-300">ch_demo_003</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main></body></html>

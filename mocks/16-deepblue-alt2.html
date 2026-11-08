@@ -1,0 +1,31 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Mock 16 — Deep blue alt2 (sidebar nav)</title>
+<script src="https://cdn.tailwindcss.com"></script></head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen antialiased flex">
+<aside class="w-60 shrink-0 border-r border-slate-800 bg-slate-950/60 p-6 hidden md:block">
+  <a class="flex items-center gap-2.5 font-semibold tracking-tight text-lg"><span class="inline-block w-7 h-7 rounded-md bg-blue-600"></span>LessonLock</a>
+  <nav class="mt-8 space-y-1 text-sm">
+    <a class="block px-3 py-2 rounded-lg bg-slate-800 text-white">Dashboard</a>
+    <a class="block px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-900">Policy builder</a>
+    <a class="block px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-900">Lessons</a>
+    <a class="block px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-900">Account</a>
+  </nav>
+</aside>
+<main class="flex-1 min-w-0">
+<header class="sticky top-0 z-50 bg-slate-950/80 backdrop-blur border-b border-slate-800">
+  <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+    <h1 class="text-2xl font-semibold tracking-tight">Dashboard</h1>
+    <button class="w-9 h-9 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-sm font-medium hover:bg-slate-700">MC</button>
+  </div>
+</header>
+<div class="max-w-5xl mx-auto px-6 py-10">
+  <p class="text-slate-400 text-base">You've recovered <span class="text-emerald-400 font-medium">$112.50</span> from 3 kept-fee charges.</p>
+  <div class="mt-8 grid gap-4 sm:grid-cols-3">
+    <a class="rounded-xl border border-slate-800 bg-slate-900/60 p-5 block hover:border-blue-500/40 transition"><p class="text-sm text-slate-400">Protected revenue</p><p class="mt-2 text-2xl font-semibold text-emerald-400">$112.50</p></a>
+    <a class="rounded-xl border border-slate-800 bg-slate-900/60 p-5 block hover:border-slate-700 transition"><p class="text-sm text-slate-400">Kept-fee charges</p><p class="mt-2 text-2xl font-semibold">3</p></a>
+    <a class="rounded-xl border border-slate-800 bg-slate-900/60 p-5 block hover:border-slate-700 transition"><p class="text-sm text-slate-400">Pending</p><p class="mt-2 text-2xl font-semibold">0</p></a>
+  </div>
+  <div class="mt-10 flex gap-3">
+    <a class="rounded-lg bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 text-sm font-medium transition">Policy builder →</a>
+    <a class="rounded-lg bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 text-sm font-medium transition">Lessons →</a>
+  </div>
+</div></main></body></html>
