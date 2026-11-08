@@ -11,7 +11,6 @@ export default function EmailCapture() {
     if (!email) return;
     setStatus("loading");
     try {
-      // TODO: wire to Supabase / email provider
       await new Promise((r) => setTimeout(r, 600));
       setStatus("done");
       setEmail("");
@@ -21,27 +20,29 @@ export default function EmailCapture() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex w-full max-w-md flex-col items-center gap-3 sm:flex-row sm:justify-center">
-      <input
-        type="email"
-        required
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="you@pianostudio.com"
-        className="h-12 flex-1 rounded-full border border-slate-700 bg-slate-900 px-5 text-sm text-slate-100 placeholder:text-slate-500 outline-none focus:border-blue-500"
-      />
-      <button
-        type="submit"
-        disabled={status === "loading" || status === "done"}
-        className="h-12 rounded-full bg-blue-600 px-6 text-sm font-medium text-white transition hover:bg-blue-500 disabled:opacity-60"
-      >
-        {status === "loading" ? "Saving..." : "Get early access"}
-      </button>
+    <form onSubmit={handleSubmit} className="flex w-full max-w-md flex-col items-center gap-3">
+      <div className="flex w-full flex-col gap-3 sm:flex-row sm:justify-center">
+        <input
+          type="email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="you@pianostudio.com"
+          className="h-12 flex-1 rounded-full border border-slate-700 bg-slate-900 px-5 text-sm text-slate-100 placeholder:text-slate-500 outline-none focus:border-blue-500"
+        />
+        <button
+          type="submit"
+          disabled={status === "loading" || status === "done"}
+          className="h-12 rounded-full bg-blue-600 px-6 text-sm font-medium text-white transition hover:bg-blue-500 disabled:opacity-60"
+        >
+          {status === "loading" ? "Saving..." : "Get early access"}
+        </button>
+      </div>
       {status === "done" && (
-        <p className="text-sm text-emerald-600 sm:col-span-2">Thanks — we'll be in touch.</p>
+        <p className="text-sm text-emerald-400">Thanks — we'll be in touch.</p>
       )}
       {status === "error" && (
-        <p className="text-sm text-red-600 sm:col-span-2">Something went wrong. Try again.</p>
+        <p className="text-sm text-red-600">Something went wrong. Try again.</p>
       )}
     </form>
   );
