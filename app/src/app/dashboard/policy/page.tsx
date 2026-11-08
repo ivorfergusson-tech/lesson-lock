@@ -54,11 +54,11 @@ export default function PolicyPage() {
           <Link href="/dashboard" className="text-sm text-slate-400 hover:text-slate-100">← Dashboard</Link>
         </div>
 
-        <div className="rounded-2xl border border-black/5 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-zinc-900">
+        <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
           <h2 className="font-semibold">Templates</h2>
           <div className="mt-3 flex flex-wrap gap-2">
             {TEMPLATES.map((t) => (
-              <button key={t.key} onClick={() => applyTpl(t)} className="rounded-full border border-black/10 px-3 py-1.5 text-sm hover:bg-zinc-50 dark:border-white/10 dark:hover:bg-zinc-800">
+              <button key={t.key} onClick={() => applyTpl(t)} className="rounded-full border border-slate-700 px-3 py-1.5 text-sm hover:bg-slate-800">
                 {t.name}
               </button>
             ))}
@@ -79,7 +79,7 @@ export default function PolicyPage() {
             </label>
           </div>
 
-          <button onClick={save} disabled={saving} className="mt-6 rounded-full bg-black px-5 py-2 text-sm font-medium text-white transition hover:bg-zinc-800 disabled:opacity-50 dark:bg-white dark:text-black">
+          <button onClick={save} disabled={saving} className="mt-6 rounded-full bg-blue-600 px-5 py-2 text-sm font-medium text-white transition hover:bg-blue-500 disabled:opacity-50">
             {saving ? "Saving…" : "Save policy"}
           </button>
           {msg && <p className="mt-3 text-sm text-slate-400">{msg}</p>}
@@ -89,7 +89,7 @@ export default function PolicyPage() {
           <h2 className="font-semibold">Your policies</h2>
           <ul className="mt-3 space-y-2">
             {policies.map((p) => (
-              <li key={p.id} className="flex items-center justify-between rounded-xl border border-black/5 bg-white px-4 py-3 text-sm dark:border-white/10 dark:bg-zinc-900">
+              <li key={p.id} className="flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/60 px-4 py-3 text-sm">
                 <span>{p.name}</span>
                 <span className="text-slate-400">{p.cancel_window_hours}h / {p.kept_fee_percent}% kept · slug: {p.slug}</span>
               </li>
