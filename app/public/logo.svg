@@ -4,6 +4,6 @@
     <rect x="20" y="28" width="24" height="20" rx="4"/>
     <path d="M24 28 V22 a8 8 0 0 1 16 0 V28"/>
   </g>
-  <circle cx="46" cy="18" r="6" fill="#10b981"/>
-  <path d="M46 14 V22 M44 20 L46 22 L48 20" stroke="#ffffff" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <circle cx="46" cy="18" r="6" fill="#ffffff"/>
+  <path d="M43 18 L45 20 L49 16" stroke="#2563eb" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
