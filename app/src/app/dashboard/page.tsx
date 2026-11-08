@@ -85,6 +85,11 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
             Checkout canceled. You can subscribe anytime.
           </div>
         )}
+        {checkoutStatus === "success_fee" && checkoutStatus === "done" && (
+          <div className="mb-6 rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-300">
+            Success fee charged. Thank you for being a Pro tutor!
+          </div>
+        )}
         <div className="flex items-center justify-between gap-6 flex-wrap">
           <h1 className="text-3xl font-semibold tracking-tight">Dashboard</h1>
           <div className="flex gap-3">
@@ -142,6 +147,11 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
               {tutor?.subscription_status === "active" && tutor?.stripe_customer_id && (
                 <form action="/api/stripe/portal" method="POST" className="inline">
                   <button type="submit" className="rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium text-slate-200 hover:bg-slate-800">Manage subscription</button>
+                </form>
+              )}
+              {tutor?.tier === "pro" && tutor?.subscription_status === "active" && (
+                <form action="/api/stripe/success-fee" method="POST" className="inline">
+                  <button type="submit" className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-500">Charge success fee (5% capped $40)</button>
                 </form>
               )}
             </div>
