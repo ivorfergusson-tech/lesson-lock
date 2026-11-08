@@ -73,7 +73,7 @@ export default function LessonsPage() {
           <Link href="/dashboard" className="text-sm text-slate-400 hover:text-slate-100">← Dashboard</Link>
         </div>
 
-        <div className="rounded-2xl border border-black/5 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-zinc-900">
+        <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
           <h2 className="font-semibold">Add lesson</h2>
           <form onSubmit={addLesson} className="mt-3 grid gap-3 sm:grid-cols-6">
             <input placeholder="Student name" value={form.student_name} onChange={(e) => setForm({ ...form, student_name: e.target.value })} className="rounded-lg border border-black/10 px-3 py-2 text-sm dark:border-white/10 bg-slate-800 text-slate-100" required />
@@ -87,7 +87,7 @@ export default function LessonsPage() {
               <input type="time" value={form.scheduled_at.split("T")[1] || "09:00"} onChange={(e) => setForm({ ...form, scheduled_at: (form.scheduled_at.split("T")[0] || new Date().toISOString().slice(0,10)) + "T" + e.target.value })} className="rounded-lg border border-black/10 px-3 py-2 text-sm dark:border-white/10 bg-slate-800 text-slate-100" required />
             </div>
             <input placeholder="Rate $" value={form.rate} onChange={(e) => setForm({ ...form, rate: e.target.value })} className="rounded-lg border border-black/10 px-3 py-2 text-sm dark:border-white/10 bg-slate-800 text-slate-100" />
-            <button type="submit" className="rounded-full bg-black px-4 py-2 text-sm font-medium text-white dark:bg-white dark:text-black">Add</button>
+            <button type="submit" className="rounded-full bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-500">Add</button>
           </form>
           <div className="mt-4 flex items-center gap-3">
             <label className="text-sm font-medium">CSV import (student_name,student_email,scheduled_at,rate):</label>
@@ -96,9 +96,9 @@ export default function LessonsPage() {
           {msg && <p className="mt-3 text-sm text-slate-400">{msg}</p>}
         </div>
 
-        <div className="mt-8 overflow-x-auto rounded-2xl border border-black/5 bg-white shadow-sm dark:border-white/10 dark:bg-zinc-900">
+        <div className="mt-8 overflow-x-auto rounded-2xl border border-slate-800 bg-slate-900/60">
           <table className="w-full text-sm">
-            <thead className="border-b border-black/5 dark:border-white/10">
+            <thead className="border-b border-slate-800 text-slate-400">
               <tr>
                 <th className="px-4 py-3 text-left font-medium">Student</th>
                 <th className="px-4 py-3 text-left font-medium">Scheduled</th>
