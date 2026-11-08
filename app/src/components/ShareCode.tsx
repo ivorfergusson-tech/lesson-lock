@@ -4,6 +4,13 @@ import { useState } from "react";
 
 export default function ShareCode({ link }: { link: string }) {
   const [open, setOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  function copy() {
+    navigator.clipboard.writeText(link).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    });
+  }
   const code = link.split("/").pop() || "";
   const qr = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(link)}`;
   return (
@@ -11,6 +18,9 @@ export default function ShareCode({ link }: { link: string }) {
       <span className="text-sm text-slate-300">
         Code: <span className="font-mono text-slate-100">{code}</span>
       </span>
+      <button onClick={copy} className="rounded-lg border border-slate-700 bg-slate-800 px-3 py-1.5 text-xs font-medium text-slate-200 hover:bg-slate-700">
+        {copied ? "Copied!" : "Copy link"}
+      </button>
       <button onClick={() => setOpen(true)} className="rounded-lg border border-slate-700 bg-slate-800 px-3 py-1.5 text-xs font-medium text-slate-200 hover:bg-slate-700">
         Show QR
       </button>
