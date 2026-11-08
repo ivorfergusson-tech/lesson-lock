@@ -78,14 +78,8 @@ export default function LessonsPage() {
           <form onSubmit={addLesson} className="mt-3 grid gap-3 sm:grid-cols-6">
             <input placeholder="Student name" value={form.student_name} onChange={(e) => setForm({ ...form, student_name: e.target.value })} className="h-10 rounded-lg border border-slate-700 px-3 text-sm bg-slate-800 text-slate-100" required />
             <input placeholder="Email" value={form.student_email} onChange={(e) => setForm({ ...form, student_email: e.target.value })} className="h-10 rounded-lg border border-slate-700 px-3 text-sm bg-slate-800 text-slate-100" />
-            <div className="flex flex-col gap-1">
-              <label className="text-xs text-slate-400">Date</label>
-              <input type="date" value={form.scheduled_at.split("T")[0]} onChange={(e) => setForm({ ...form, scheduled_at: e.target.value + "T" + (form.scheduled_at.split("T")[1] || "09:00") })} className="h-10 rounded-lg border border-slate-700 px-3 text-sm bg-slate-800 text-slate-100" required />
-            </div>
-            <div className="flex flex-col gap-1">
-              <label className="text-xs text-slate-400">Time</label>
-              <input type="time" value={form.scheduled_at.split("T")[1] || "09:00"} onChange={(e) => setForm({ ...form, scheduled_at: (form.scheduled_at.split("T")[0] || new Date().toISOString().slice(0,10)) + "T" + e.target.value })} className="h-10 rounded-lg border border-slate-700 px-3 text-sm bg-slate-800 text-slate-100" required />
-            </div>
+            <input type="date" value={form.scheduled_at.split("T")[0]} onChange={(e) => setForm({ ...form, scheduled_at: e.target.value + "T" + (form.scheduled_at.split("T")[1] || "09:00") })} className="h-10 rounded-lg border border-slate-700 px-3 text-sm bg-slate-800 text-slate-100" required />
+            <input type="time" value={form.scheduled_at.split("T")[1] || "09:00"} onChange={(e) => setForm({ ...form, scheduled_at: (form.scheduled_at.split("T")[0] || new Date().toISOString().slice(0,10)) + "T" + e.target.value })} className="h-10 rounded-lg border border-slate-700 px-3 text-sm bg-slate-800 text-slate-100" required />
             <input placeholder="Rate $" value={form.rate} onChange={(e) => setForm({ ...form, rate: e.target.value })} className="h-10 rounded-lg border border-slate-700 px-3 text-sm bg-slate-800 text-slate-100" />
             <button type="submit" className="rounded-full bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-500">Add</button>
           </form>
