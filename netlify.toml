@@ -1,0 +1,9 @@
+[build]
+  command = "cd app && npm install && npm run build"
+  publish = "app/.next"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
