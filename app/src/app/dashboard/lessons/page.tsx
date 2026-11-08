@@ -118,6 +118,9 @@ export default function LessonsPage() {
                         <button onClick={() => mark(l.id, "completed")} className="text-xs text-emerald-600 hover:underline">Completed</button>
                       </>
                     )}
+                    {l.status === "charged" && (
+                      <button onClick={async () => { const r = await fetch("/api/refund", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ lessonId: l.id }) }); const d = await r.json(); if (d.ok) { setToast({ text: `Refunded successfully`, ok: true }); load(); } else setToast({ text: d.error || "Refund failed", ok: false }); }} className="text-xs text-red-500 hover:underline">Refund</button>
+                    )}
                     {l.status === "no_show" || l.status === "late_cancel" ? (
                       <>
                         <button disabled={chargingId === l.id} onClick={async () => { setChargingId(l.id); const r = await fetch("/api/charge", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ lessonId: l.id }) }); const d = await r.json(); setChargingId(null); if (d.ok) { setToast({ text: `Charged $${(d.amount/100).toFixed(2)}`, ok: true }); load(); } else setToast({ text: d.error || "Charge failed", ok: false }); }} className="text-xs text-blue-400 hover:underline disabled:opacity-50">
